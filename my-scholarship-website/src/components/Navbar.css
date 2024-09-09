@@ -1,0 +1,75 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 1rem; /* Adjust padding as needed */
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 80px; /* Adjust height as needed */
+}
+
+.navbar h1 {
+    margin: 0;
+}
+
+.nav-links {
+    display: flex;
+    gap: 10px; /* Adjust gap as needed */
+}
+
+.nav-links button {
+    padding: 10px;
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-links button:hover {
+    background-color: white;
+    color: #333;
+}
+
+.settings-container {
+    position: relative;
+}
+
+.settings-icon {
+    color: white;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.settings-dropdown {
+    position: absolute;
+    right: 0;
+    top: 2.5rem;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 150px;
+    padding: 0.5rem;
+}
+
+.settings-dropdown button {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.settings-dropdown button:hover {
+    background-color: #f0f0f0;
+}

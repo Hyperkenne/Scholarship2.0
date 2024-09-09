@@ -1,0 +1,88 @@
+.about-us {
+    text-align: center;
+    padding-top: 80px; /* Adjust this value based on the height of the navbar */
+  }
+  
+  .ceo-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center 80%; /* Adjust the percentage to drop the image further */
+    height: 70vh; /* Increased height for better visibility */
+    color: white;
+    padding: 50px 20px;
+    margin-top: 0; /* Remove any default margin */
+  }
+  
+  .ceo-text {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .read-button {
+    background-color: #eb520b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+  
+  .letter-section {
+    margin: 50px 20px;
+  }
+  
+  .toggle-letter-button {
+    background-color: #55546d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .letter-content {
+    background-color: #f8f9fa;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: left;
+  }
+  
+  .faq-section {
+    margin: 50px 20px;
+    text-align: left;
+  }
+  
+  .faq-item {
+    margin-bottom: 20px;
+  }
+  
+  .faq-item h3 {
+    color: #000;
+  }
+  
+  .faq-item p {
+    color: #333;
+  }
+  
+  hr {
+    border: 0;
+    border-top: 1px solid #eee;
+  }
+  
+  .faq-item a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .faq-item a:hover {
+    text-decoration: underline;
+  }
+  

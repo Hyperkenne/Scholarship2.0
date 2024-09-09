@@ -1,0 +1,215 @@
+.advice {
+    padding-top: 10px; /* Adjust this value if your navbar height is different */
+    padding-bottom: 20px;
+  }
+  
+  .hero-section {
+    display: flex;
+    align-items: center;
+    background-color: #55546d; /* Adjust the background color as needed */
+    color: white;
+    padding: 50px;
+  }
+  
+  .hero-text {
+    flex: 1;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+  
+  .hero-text h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+  }
+  
+  .hero-text p {
+    font-size: 1.2em;
+  }
+  
+  .hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 20px;
+  }
+  
+  .hero-image img {
+    max-width: 100%;
+    border-radius: 10px; /* Optional: to match the style in your screenshot */
+  }
+  
+.collaboration-section {
+    padding: 50px 0;
+    background-color: #f8f9fa;
+    text-align: center;
+  }
+  
+  .collaboration-section h2 {
+    font-size: 60px;
+    margin-bottom: 40px;
+  }
+  
+  .collaboration-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .collaboration-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .collaboration-photo {
+    width: 200px;
+    height: 150px;
+    border-radius: 10px;
+  }
+  
+  .boomerang-arrow {
+    font-size: 50px;
+    color: #55546d;
+    margin-left: 10px;
+  }
+  
+  .collaboration-scrollable {
+    display: flex;
+    overflow-x: auto;
+    padding-left: 10px;
+  }
+  .advice-section {
+    padding: 50px 0;
+    background-color: #55546d; /* Light blue background */
+    text-align: center;
+    margin-top: 50px; /* Increase this value as needed */
+    margin-bottom: 100px; /* Add space between the advice section and the footer */
+    border-radius: 10px;
+  }
+  
+  .advice-section h2 {
+    font-size: 32px;
+    margin-bottom: 40px;
+    color: #ffffff; /* Black text color */
+  }
+  
+  .advice-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+  }
+  
+  .advice-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 250px; /* Set a fixed width */
+  }
+  
+  .advice-photo {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+  }
+  
+  .advice-text {
+    padding: 10px 0;
+  }
+  
+  .advice-text h3 {
+    font-size: 20px;
+    margin: 10px 0;
+    color: #333; /* Darker text color */
+  }
+  
+  .advice-text p {
+    font-size: 16px;
+    color: #666; /* Gray text color */
+  }
+  .advice-item:hover {
+    transform: scale(1.05); /* Slightly increase size on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+  }
+  
+  .newsletter-section {
+    padding: 50px;
+    background-color: #55546d;
+    color: white;
+    text-align: center;
+    
+  }
+  
+  .newsletter-section h2 {
+    margin-bottom: 20px;
+  }
+  
+  .newsletter-section p {
+    margin-bottom: 30px;
+    font-size: 1.2em;
+  }
+  
+  .newsletter-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .newsletter-form input {
+    padding: 10px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    
+  }
+  
+  .newsletter-form button {
+    padding: 10px;
+    font-size: 1em;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    background-color: #eb520b;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .newsletter-form button:hover {
+    background-color: #ffffff;
+    color: #333;
+  }
+  .faq-section {
+    padding: 50px;
+    background-color: #f4f4f4;
+  }
+  
+  .faq-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .faq-item {
+    margin-bottom: 20px;
+  }
+  
+  .faq-item h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .faq-item p {
+    font-size: 1.2em;
+  }
+  
+  .faq-item a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .faq-item a:hover {
+    text-decoration: underline;
+  }    
+  
