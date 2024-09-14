@@ -30,6 +30,7 @@ const AdminPanel = () => {
     video: '',
     links: []
   });
+
   const [blogLinkInput, setBlogLinkInput] = useState('');
   const [isEditingBlog, setIsEditingBlog] = useState(false);
   const [editBlogIndex, setEditBlogIndex] = useState(null);
@@ -41,8 +42,8 @@ const AdminPanel = () => {
 
   const fetchScholarships = async () => {
     try {
-      const response = await axios.get('https://steelblue-rook-877612.hostingersite.com/api.php?action=getScholarships');
-      console.log('Fetched Scholarships:', response.data);
+      const response = await axios.post('http://localhost:4001/scholarships/fetchAllScholarShips');
+      // console.log('Fetched Scholarships:', response.data);
       setScholarships(response.data);
     } catch (error) {
       console.error('Error fetching scholarships:', error);
@@ -51,16 +52,18 @@ const AdminPanel = () => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get('https://steelblue-rook-877612.hostingersite.com/api.php?action=getBlogs');
-      console.log('Fetched Blogs:', response.data);
+      const response = await axios.post('http://localhost:4001/blogs/fetchBlogs');
+      // console.log('Fetched Blogs:', response.data);
       setBlogs(response.data);
     } catch (error) {
       console.error('Error fetching blogs:', error);
     }
   };
 
+
   const handleInputChange = (e, setState, state) => {
     const { name, value } = e.target;
+    // console.log(e.target.name +" - "+ e.target.value);
     setState({ ...state, [name]: value });
   };
 
@@ -88,17 +91,12 @@ const AdminPanel = () => {
   };
 
   const handleAddScholarship = async () => {
-    console.log('Adding Scholarship:', newScholarship);
-    const updatedScholarships = isEditing
-      ? scholarships.map((scholarship, index) =>
-          index === editIndex ? newScholarship : scholarship
-        )
-      : [...scholarships, newScholarship];
+    // console.log('Adding Scholarship:', newScholarship);
 
     try {
-      const response = await axios.post('https://steelblue-rook-877612.hostingersite.com/api.php?action=addScholarship', newScholarship);
-      console.log('Add Scholarship Response:', response.data);
-      setScholarships(updatedScholarships);
+      const response = await axios.post('http://localhost:4001/scholarships/addScholarships', newScholarship);
+      // console.log('Add Scholarship Response:', response.data);
+      setScholarships(scholarships);
       fetchScholarships();
     } catch (error) {
       console.error('Error adding scholarship:', error);
@@ -118,28 +116,50 @@ const AdminPanel = () => {
     setEditIndex(null);
   };
 
-  const handleEditScholarship = (index) => {
-    setNewScholarship(scholarships[index]);
+  const finalEditScholarship = async (id) => {
+    // console.log(editIndex); 
+    // console.log('Editing Scholarship:', newScholarship);
+    const res = await axios.post('http://localhost:4001/scholarships/updateScholarShips?id=' + editIndex, newScholarship);
+    // console.log('Edited Scholarship Response:', res.data);
+    setIsEditing(false);
+    setEditIndex(null);
+    setNewScholarship({
+      title: '',
+      description: '',
+      banner: '',
+      links: [],
+      rewardWorth: '',
+      deadline: null,
+      gradeLevel: '',
+      country: ''
+    });
+    fetchScholarships();
+  };
+
+
+  const handleEditScholarship =async (index) => {
+    setNewScholarship(scholarships.find((_, i) => _._id === index));
     setIsEditing(true);
     setEditIndex(index);
   };
 
   const handleRemoveScholarship = async (index) => {
-    const scholarshipId = scholarships[index].id; // Assuming each scholarship has an id field
-    console.log('Removing Scholarship ID:', scholarshipId);
+    const scholarshipId = index; // Assuming each scholarship has an id field
+    // console.log('Removing Scholarship ID:', scholarshipId);
 
     try {
-      const response = await axios.post('https://steelblue-rook-877612.hostingersite.com/api.php?action=removeScholarship', { id: scholarshipId });
-      console.log('Remove Scholarship Response:', response.data);
+      const response = await axios.post('http://localhost:4001/scholarships/deleteScholarships', { id: scholarshipId });
+      // console.log('Remove Scholarship Response:', response.data);
       const updatedScholarships = scholarships.filter((_, i) => i !== index);
       setScholarships(updatedScholarships);
+      fetchScholarships();
     } catch (error) {
       console.error('Error removing scholarship:', error);
     }
   };
 
   const handleAddBlog = async () => {
-    console.log('Adding Blog:', newBlog);
+    // console.log('Adding Blog:', newBlog);
     const updatedBlogs = isEditingBlog
       ? blogs.map((blog, index) =>
           index === editBlogIndex ? newBlog : blog
@@ -147,9 +167,9 @@ const AdminPanel = () => {
       : [...blogs, newBlog];
 
     try {
-      const response = await axios.post('https://steelblue-rook-877612.hostingersite.com/api.php?action=addBlog', newBlog);
-      console.log('Add Blog Response:', response.data);
-      setBlogs(updatedBlogs);
+      const response = await axios.post('http://localhost:4001/blogs/addBlogs', newBlog);
+      // console.log('Add Blog Response:', response.data);
+      setBlogs(blogs);
       fetchBlogs();
     } catch (error) {
       console.error('Error adding blog:', error);
@@ -166,25 +186,57 @@ const AdminPanel = () => {
     setEditBlogIndex(null);
   };
 
+  const finalEditBlog = async () => {
+    // console.log('Editing Blog:', newBlog);
+    const res = await axios.post('http://localhost:4001/blogs/updateBlogs?id=' + editBlogIndex, newBlog);
+    // console.log('Edited Blog Response:', res.data);
+    setIsEditingBlog(false);
+    setEditBlogIndex(null);
+    setNewBlog({
+      title: '',
+      description: '',
+      banner: '',
+      video: '',
+      links: []
+    });
+    fetchBlogs();
+  }
+
   const handleEditBlog = (index) => {
-    setNewBlog(blogs[index]);
+    setNewBlog(blogs.find((_, i) => _._id === index));
     setIsEditingBlog(true);
     setEditBlogIndex(index);
   };
 
   const handleRemoveBlog = async (index) => {
-    const blogId = blogs[index].id; // Assuming each blog has an id field
-    console.log('Removing Blog ID:', blogId);
+    const blogId = index; 
+    // console.log('Removing Blog ID:', blogId);
 
     try {
-      const response = await axios.post('https://steelblue-rook-877612.hostingersite.com/api.php?action=removeBlog', { id: blogId });
-      console.log('Remove Blog Response:', response.data);
+      const response = await axios.post('http://localhost:4001/blogs/deleteBlogs', { id: blogId });
+      // console.log('Removed Blog Response:', response.data);
       const updatedBlogs = blogs.filter((_, i) => i !== index);
       setBlogs(updatedBlogs);
+      fetchBlogs();
     } catch (error) {
       console.error('Error removing blog:', error);
     }
   };
+
+  const [searchScholarship, useSearchScholarship] = useState('');
+  const [searchBlog, useSearchBlog] = useState('');
+
+  const handleSearchScholarship = async (e) => {
+    useSearchScholarship(e.target.value);
+    const res = await axios.post('http://localhost:4001/scholarships/searchScholarShips', {filter : searchScholarship});
+    setScholarships(res.data.list);
+  }
+
+  const handleSearchBlog = async (e) => {
+    useSearchBlog(e.target.value);
+    const res = await axios.post('http://localhost:4001/blogs/searchBlogs', {filter : searchBlog});
+    setBlogs(res.data);
+  }
 
   const toggleExpand = (index) => {
     setExpanded({ ...expanded, [index]: !expanded[index] });
@@ -276,13 +328,13 @@ const AdminPanel = () => {
               <option key={index} value={country}>{country}</option>
             ))}
           </select>
-          <button onClick={handleAddScholarship}>{isEditing ? 'Update Scholarship' : 'Add Scholarship'}</button>
+          <button onClick={(isEditing) ? (finalEditScholarship) : (handleAddScholarship)}>{isEditing ? 'Update Scholarship' : 'Add Scholarship'}</button>
         </div>
 
         <div className="list-section">
-          <h2>Scholarships List</h2>
+          <h2>Scholarships List <input placeholder='Search Scholarships' onChange={handleSearchScholarship} value={searchScholarship}></input></h2>
           {scholarships.map((scholarship, index) => (
-            <div key={index} className="item">
+            <div key={scholarship._id} className="item">
               <h3>{scholarship.title}</h3>
               <p>{scholarship.description}</p>
               <p>Reward Worth: {scholarship.rewardWorth}</p>
@@ -303,8 +355,8 @@ const AdminPanel = () => {
                   </li>
                 ))}
               </ul>
-              <button onClick={() => handleEditScholarship(index)}>Edit</button>
-              <button onClick={() => handleRemoveScholarship(index)}>Remove</button>
+              <button onClick={() => handleEditScholarship(scholarship._id)}>Edit</button>
+              <button onClick={() => handleRemoveScholarship(scholarship._id)}>Remove</button>
             </div>
           ))}
         </div>
@@ -343,13 +395,13 @@ const AdminPanel = () => {
             />
             <button onClick={() => handleAddLink(setNewBlog, newBlog, blogLinkInput, setBlogLinkInput)}>Add Link</button>
           </div>
-          <button onClick={handleAddBlog}>{isEditingBlog ? 'Update Blog' : 'Add Blog'}</button>
+          <button onClick={(isEditingBlog) ? (finalEditBlog) :(handleAddBlog)}>{isEditingBlog ? 'Update Blog' : 'Add Blog'}</button>
         </div>
 
         <div className="list-section">
-          <h2>Blogs List</h2>
+          <h2>Blogs List  <input placeholder='Search Blogs' onChange={handleSearchBlog} value={searchBlog}></input></h2>
           {blogs.map((blog, index) => (
-            <div key={index} className="item">
+            <div key={blog._id} className="item">
               <h3>{blog.title}</h3>
               <p>{blog.description}</p>
               <div className="banner-preview">
@@ -372,8 +424,8 @@ const AdminPanel = () => {
                   </li>
                 ))}
               </ul>
-              <button onClick={() => handleEditBlog(index)}>Edit</button>
-              <button onClick={() => handleRemoveBlog(index)}>Remove</button>
+              <button onClick={() => handleEditBlog(blog._id)}>Edit</button>
+              <button onClick={() => handleRemoveBlog(blog._id)}>Remove</button>
             </div>
           ))}
         </div>
