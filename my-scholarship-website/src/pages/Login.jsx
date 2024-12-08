@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faApple } from '@fortawesome/free-brands-svg-icons';
+import axios from 'axios';
 import './Login.css';
 import logo from '../assets/logo.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -19,7 +21,22 @@ const Login = () => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    // Handle login logic here
+    onLogin();
+  };
+
+  const onLogin = () => {
+    console.log(email , password)
+    axios.post("http://localhost:4001/users/loginUser", { username: email, password: password })
+      .then((res) => {
+        const responseData = res.data;
+        const token = responseData.token;
+        console.log(token);
+        localStorage.setItem("token", `Bearer ${token}`);
+        window.location.href = "/home";
+      })
+      .catch((err) => {
+        console.error(err.response.data);
+      });
   };
 
   return (
@@ -32,11 +49,12 @@ const Login = () => {
       <div className="login-container">
         <h2>Login</h2>
         <form onSubmit={handleLogin} className="login-form">
+
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="username">Email</label>
             <input
               type="email"
-              id="email"
+              id="username"
               value={email}
               onChange={handleEmailChange}
               required

@@ -10,13 +10,15 @@ const Home = () => {
   const [sortCriteria, setSortCriteria] = useState("default");
   const [countryFilter, setCountryFilter] = useState("");
 
+
   useEffect(() => {
     fetchScholarships();
   }, [sortCriteria, countryFilter]);
 
   const fetchScholarships = async () => {
     try {
-      const response = await axios.get('https://steelblue-rook-877612.hostingersite.com/api.php?action=getScholarships');
+      const response = await axios.post('http://localhost:4001/scholarships/fetchAllScholarShips');
+      console.log(response.data);
       setScholarships(sortAndFilterScholarships(response.data, sortCriteria, countryFilter));
     } catch (error) {
       console.error('Error fetching scholarships:', error);

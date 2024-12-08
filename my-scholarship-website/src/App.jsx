@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Admission from './pages/Admission';
 import FinancialAid from './pages/FinancialAid';
@@ -13,10 +13,36 @@ import Intro from './pages/Intro';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
+import axios from 'axios';
+
 const AppContent = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(false);
+
   const isLoginPage = location.pathname === '/login';
   const isRegisterPage = location.pathname === '/register';
+  const isIntroPage = location.pathname === '/';
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem('token')?.split(' ')[1];
+      if (token) {
+        try {
+          const { data } = await axios.post('http://localhost:4001/users/userData', { token });
+          if (data) {
+            setIsLogin(true);
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      } else if (!isLoginPage && !isRegisterPage && !isIntroPage) {
+        navigate('/login');
+      }
+    };
+
+    fetchData();
+  }, [isLoginPage, isRegisterPage, isIntroPage, navigate]);
 
   return (
     <>

@@ -14,6 +14,6 @@ routes
     .post("/fetchAllScholarShips" , fetchAllScholarShips.fetchAllScholarShips)
     .post("/searchScholarShips" , searchScholarShips.searchScholarShips)
     .post("/updateScholarShips" , updateScholarShips.updateScholarShips)
-    .post("/detchScholarShipById" , fetchScholarShipById.fetchScholarShipById);
+    .post("/fetchScholarShipById" , fetchScholarShipById.fetchScholarShipById);
  
 exports.route = routes;

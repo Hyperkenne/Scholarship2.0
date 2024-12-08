@@ -3,6 +3,7 @@ const blogsSchema = require("../../models/blogsSchema");
 const searchBlogs = async ( req , res) =>{
     try{
         const filter = req.body.filter;
+        
         const blogs = await blogsSchema.find({
             $or : [
             {title: {"$regex": filter, $options: 'i'}},

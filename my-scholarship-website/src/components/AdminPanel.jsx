@@ -43,7 +43,6 @@ const AdminPanel = () => {
   const fetchScholarships = async () => {
     try {
       const response = await axios.post('http://localhost:4001/scholarships/fetchAllScholarShips');
-      // console.log('Fetched Scholarships:', response.data);
       setScholarships(response.data);
     } catch (error) {
       console.error('Error fetching scholarships:', error);

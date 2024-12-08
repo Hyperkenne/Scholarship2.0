@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import pdfFile from '../assets/USER STORIES ON GITAM UNIVERSITY SOFTWARE DEVELOPMENT.pdf'; // Adjust the path to your actual PDF file
 import './Admission.css';
 
 const Admission = () => {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/login";
+    }
+  })
+
   return (
     <div>
       <h1>Admission</h1>

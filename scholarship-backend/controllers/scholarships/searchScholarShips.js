@@ -8,7 +8,6 @@ const searchScholarShips = async (req, res) => {
                     "$regex": filter
                 }
             },
-    
                 {
                 description: {
                     "$regex": filter

@@ -17,6 +17,7 @@ import bg2 from '../assets/bg2.jpeg';
 import bg3 from '../assets/bg3.jpeg';
 import FloatingIcons from './FloatingIcons';
 
+
 const testimonials = [
   {
     photo: photo1,
@@ -45,6 +46,15 @@ const Intro = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [currentBackgroundIndex, setCurrentBackgroundIndex] = useState(0);
+  const [isLogin , setIsLogin] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLogin(true);
+    }
+
+  }, []);
 
   useEffect(() => {
     const testimonialInterval = setInterval(() => {
@@ -75,6 +85,30 @@ const Intro = () => {
       });
   };
 
+  const sendNewsletter = async (e) => {
+    const email_newsletter = email;
+    console.log(email_newsletter)
+    if (!email_newsletter) {
+      setMessage('Please enter your email.');
+      return;
+    }
+    try {
+      setMessage('Sending email...');
+      const data = await axios.post('http://localhost:4001/users/sendOTP', {username :  email_newsletter ,subject : "You are Subscribed to KENEDY's NewsLetter" })
+      .then(()=>{
+        setMessage('Email sent successfully!');
+        setEmail('');
+      })
+      .catch((err) => {
+        setMessage('An error occurred. Please try again.');
+        console.log(err);
+      })
+    }
+    catch(err){
+      console.log(err);
+    }
+  };
+
   return (
     <div className="intro">
       <Hnavbar />
@@ -82,9 +116,15 @@ const Intro = () => {
         <div className="hero-text">
           <h1>Welcome to Our Scholarship Platform</h1>
           <p>Find the best scholarships that fit your needs and goals.</p>
-          <Link to="/admin">
+          {isLogin ?
+          (<Link to="/admin">
             <button className="join-button">Join For Free</button>
-          </Link>
+          </Link>) :
+          (
+            <Link to="/login">
+              <button className="join-button">Login Now</button>
+            </Link>
+          )}
         </div>
       </div>
       <div className="how-it-works-section">
@@ -167,7 +207,7 @@ const Intro = () => {
             onChange={(e) => setEmail(e.target.value)}
             required 
           />
-          <button type="submit">Subscribe</button>
+          <button type="submit" onClick={sendNewsletter}>Subscribe</button>
         </form>
         {message && <p>{message}</p>}
       </div>

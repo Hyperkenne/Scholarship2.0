@@ -9,6 +9,15 @@ const Hnavbar = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const [isLogin , setIsLogin] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLogin(true);
+    }
+
+  }, []);
 
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
@@ -87,11 +96,20 @@ const Hnavbar = ({ onSearch }) => {
             />
             <FontAwesomeIcon icon={faSearch} className="search-icon" />
           </li>
-          <li className="nav-item">
-            <NavLink to="/login" className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')} onClick={closeMenu}>
-              Login
-            </NavLink>
-          </li>
+
+          {isLogin ? (
+            <li className="nav-item">
+              <NavLink to="/profile" className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')} onClick={closeMenu}>
+                Profile
+              </NavLink>
+            </li>
+          ) : (
+            <li className="nav-item">
+              <NavLink to="/login" className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')} onClick={closeMenu}>
+                Login
+              </NavLink>
+            </li>
+          )}
         </ul>
       </div>
     </nav>

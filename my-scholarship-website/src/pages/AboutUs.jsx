@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './AboutUs.css';
 import ceoImage from '../assets/CEO1.jpg'; // Ensure the image path is correct
 
@@ -13,6 +13,13 @@ const AboutUs = () => {
   const toggleLetterVisibility = () => {
     setIsLetterVisible(!isLetterVisible);
   };
+  
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/login";
+    }
+  })
 
   return (
     <div className="about-us">

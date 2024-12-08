@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faApple } from '@fortawesome/free-brands-svg-icons';
+import axios from 'axios';
 import './Register.css';
 import logo from '../assets/logo.png';
 
@@ -13,11 +14,55 @@ const Register = () => {
   const [countryToStudyWork, setCountryToStudyWork] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [userOTP, setUserOTP] = useState('');
+  const [curr, setCurr] = useState(0);
+  const [loadButton, setLoadButton] = useState(true);
+  const [hashedPassword, setHashedPassword] = useState('');
+  const [genOtp, setGenOtp] = useState('');
 
-  const handleRegister = (event) => {
+  const onSignup = (event) => {
     event.preventDefault();
-    // Handle registration logic here
-  };
+    axios.post("http://localhost:4001/users/signupUser", { firstName, lastName, username: email, password, repassword: password })
+      .then((res) => {
+        setLoadButton(false);
+        setHashedPassword(res.data.hashed_password);
+        console.log(hashedPassword);
+        axios.post("http://localhost:4001/users/sendOTP", { username: email , subject : "OTP for Verification - EASY_PAY" ,  })
+          .then((response) => {
+            setGenOtp(response.data.otp);
+            console.log(genOtp);
+            setCurr(1);
+          })
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  const checkOTP = () => {
+    axios.post("http://localhost:4001/users/checkOTP", { otp: genOtp, userOTP })
+      .then((res) => {
+        if (res.status === 200) {
+          axios.post("http://localhost:4001/users/addUser", { firstName, lastName, username: email, password: hashedPassword })
+            .then((response) => {
+              axios.post("http://localhost:4001/users/loginUser", { username: email, password })
+                .then((res) => {
+                  const responseData = res.data;
+                  const token = responseData.token;
+                  console.log(token);
+                  localStorage.setItem("token", `Bearer ${token}`);
+                  window.location.href = "/home";
+                })
+            })
+        } else {
+          console.log("User Can't be Added");
+          alert("User Can't be Successfully Added");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  }
 
   return (
     <div className="register-page">
@@ -28,7 +73,7 @@ const Register = () => {
       </div>
       <div className="register-container">
         <h2>Register</h2>
-        <form onSubmit={handleRegister} className="register-form">
+        <form onSubmit={onSignup} className="register-form">
           <div className="form-group">
             <label htmlFor="firstName">First Name</label>
             <input
@@ -99,11 +144,27 @@ const Register = () => {
               required
             />
           </div>
-          <button type="submit" className="register-submit-button">Register</button>
+          {curr === 1 && (
+            <div className="form-group">
+              <label htmlFor="userOTP">Enter OTP</label>
+              <input
+                type="text"
+                id="userOTP"
+                value={userOTP}
+                onChange={(e) => setUserOTP(e.target.value)}
+                required
+              />
+              <button type="button" onClick={checkOTP} className="otp-submit-button">Verify OTP</button>
+            </div>
+          )}
+          {curr === 0 && (
+            <button type="submit" className="register-submit-button">Register</button>
+          )}
         </form>
         <div className="login-link">
           <NavLink to="/login" className="login-link-text">Already have an account?</NavLink>
         </div>
+        
         <div className="register-options">
           <button className="register-button google-register">
             <FontAwesomeIcon icon={faGoogle} /> Register with Google
